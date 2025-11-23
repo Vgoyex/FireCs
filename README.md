@@ -5,6 +5,8 @@ API — File Upload Service
 API backend desenvolvid em .NET para upload de arquivos para um bucket (Cloudflare R2, Amazon S3 ou outro storage compatível).
 Este projeto serve como base sólida para sistemas que lidam com imagens, vídeos e documentos, mantendo alta organização, segurança e escalabilidade.
 
+<hr>
+
 ### ⚙️ Funcionalidades
 ### 🔐 Gerenciamento de Usuários
 
@@ -17,6 +19,7 @@ Este projeto serve como base sólida para sistemas que lidam com imagens, vídeo
   </ul>
 </div>
 
+<hr>
 
 ### ☁ Upload de Arquivos
 <div>
@@ -29,6 +32,7 @@ Este projeto serve como base sólida para sistemas que lidam com imagens, vídeo
   </ul>
 </div>
 
+<hr>
 
 ### 🖥️ Visualização Front-End
 <div>
@@ -39,6 +43,8 @@ Este projeto serve como base sólida para sistemas que lidam com imagens, vídeo
     <li><h3>Visualização dos usuários</h3></li>
   </ul>
 </div>
+
+<hr>
 
 ### 🔧Tecnologias Utilizadas
 <div>
