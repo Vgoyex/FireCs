@@ -1,4 +1,5 @@
-﻿using Fire.API.Extensions;
+﻿using System.Security.Claims;
+using Fire.API.Extensions;
 using Fire.API.Params;
 using Fire.Application.Services;
 using Fire.Communication.Requests;
@@ -54,20 +55,30 @@ namespace Fire.API.Controllers
 
        //Testar o algoritmo
        [HttpGet("home")]
-        public async Task<IActionResult> Home([FromQuery] PaginationParams paginationParams, Guid userId)
+        public async Task<IActionResult> Home([FromQuery] PaginationParams paginationParams)
         {
-            var posts = await _postsService.FindAllPosts(paginationParams.pageNumber, paginationParams.pageSize);
-            Response.AddPaginationHeader(new PaginationHeader
-            (posts.pageNumber, posts.pageSize, posts.totalCount, posts.totalPages));
-            //var userId = GetUserId(); // pegue do JWT ou auth
+            //Response.AddPaginationHeader(new PaginationHeader
+            //(posts.pageNumber, posts.pageSize, posts.totalCount, posts.totalPages));
 
-            //var posts = await _postsService.GetHybridFeedAsync(
-            //    userId,
-            //    paginationParams.pageNumber,
-            //    paginationParams.pageSize
-            //);
+            //string?  userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            return Ok(posts);
+            //var posts = userIdStr is null
+            //    ? await _postsService.GetFeedGeneric()
+            //    : await _postsService.GetHybridFeedAsync(
+            //            Guid.Parse(userIdStr),
+            //            paginationParams.pageNumber,
+            //            paginationParams.pageSize);
+
+            var posts = "testando algoritmo";
+            if(posts is null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(posts);
+            }
+            
         }
 
         [HttpGet("id/{id}")]

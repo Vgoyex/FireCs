@@ -13,7 +13,6 @@ namespace Fire.API.Controllers
     public class UsersController : ControllerBase
     {
 
-        //private readonly ILogger<UsersController> _logger;
         private readonly UsersService _usersService;
 
         public UsersController(UsersService usersService)
@@ -32,8 +31,7 @@ namespace Fire.API.Controllers
             return Ok(usuarios);
         }
 
-        //Teste
-        [HttpGet("usuario_unico/{id}")]
+        [HttpGet("user_id/{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var user = await _usersService.GetById(id);
@@ -63,11 +61,12 @@ namespace Fire.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest req)
         {
-            string jwtToken = "TESTE";
             var userOptional = req.Adapt<UsersEntity>();
-           
-            var result = await _usersService.ReturnLogin(userOptional, jwtToken);
-            return Ok(result);
+            var result = await _usersService.ReturnLogin(userOptional);
+            if(result.ContainsKey("erro")){
+                return BadRequest(result);
+            }
+                return Ok(result);
         }
 
 
@@ -93,40 +92,3 @@ namespace Fire.API.Controllers
         }
     }
 }
-
-
-
-
-
-//@PostMapping("/login")
-//    public ResponseEntity<?> login(@RequestBody UsersLoginRequest req)
-//{
-//    Optional<UsersModel> userOptional = usersService.findByEmail(req.email());
-//    if (userOptional.isEmpty() ||
-//            !BCrypt.checkpw(req.password(), userOptional.get().getPassword()))
-//    {
-//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas.");
-//    }
-//    String jwtToken = JwtUtil.generate(req.email());
-
-//    var result = usersService.returnLogin(userOptional, jwtToken);
-
-//    return ResponseEntity.ok(result);
-//}
-
-//@PutMapping("/editar_usuario/{id}")
-//    public ResponseEntity<?> editarUsuario(@PathVariable(value= "id")UUID id, @RequestBody UsersRegisterRequest req){
-//        var usuario = usersService.findById(id);
-//if (usuario.isEmpty())
-//    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id: " + id + " não encontrado!");
-//var usuarioResult = usuario.get();
-//BeanUtils.copyProperties(req, usuarioResult);
-//return ResponseEntity.status(HttpStatus.OK).body(usersService.save(usuarioResult));
-//    }
-
-//    @DeleteMapping("/deletar_usuario/{id}")
-//    public ResponseEntity<?> deletarUsuario(@PathVariable(value = "id") UUID id) {
-//        //! Ao apagar usuário todos os posts vão junto. Possui ON DELETE CASCADE em posts
-//        usersService.deleteById(id);
-//return ResponseEntity.status(HttpStatus.OK).body("Id:" + id + " deletado!");
-//    }
