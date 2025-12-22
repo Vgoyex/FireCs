@@ -39,7 +39,7 @@ namespace Fire.API.Controllers
             return BadRequest();
         }
 
-        [HttpGet("/user_id/{user_id}")]
+        [HttpGet("user_id/{user_id}")]
         public async Task<IActionResult> GetByUserId(
             [FromQuery] PaginationParams paginationParams,
             Guid user_id)
@@ -63,7 +63,7 @@ namespace Fire.API.Controllers
             //string?  userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             //var posts = userIdStr is null
-            //    ? await _postsService.GetFeedGeneric()
+                //? await _postsService.GetFeedGeneric()
             //    : await _postsService.GetHybridFeedAsync(
             //            Guid.Parse(userIdStr),
             //            paginationParams.pageNumber,

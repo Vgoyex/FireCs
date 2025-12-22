@@ -4,6 +4,9 @@ using Amazon.S3.Model;
 using Fire.Application.Configuration;
 using Microsoft.Extensions.Options;
 
+// para exibir no front
+//string result = $"https://pub-61e84a980e7d4fc08c0f3f103445561e.r2.dev/{key}";
+
 namespace Fire.Application.Services
 {
     public class BucketService
@@ -76,7 +79,7 @@ namespace Fire.Application.Services
             };
 
             await _s3.PutObjectAsync(request);
-
+            
             return key;
         }
 

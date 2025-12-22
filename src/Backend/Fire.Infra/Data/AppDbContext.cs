@@ -12,6 +12,8 @@ namespace Fire.Infra.Data
         }
         public DbSet<UsersEntity> Users { get; set; }
         public DbSet<PostsEntity> Posts { get; set; }
+        public DbSet<PostsLikesEntity> PostsLikes { get; set; }
+        public DbSet<UserInteractionsEntity> UserInteractions { get; set; }
         //public DbSet<Content> Content { get; set; }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

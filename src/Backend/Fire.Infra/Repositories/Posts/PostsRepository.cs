@@ -2,6 +2,7 @@
 using Fire.Domain.Pagination;
 using Fire.Infra.Data;
 using Fire.Infra.Helpers;
+using Microsoft.EntityFrameworkCore;
 namespace Fire.Infra.Repositories.Posts
 {
     public class PostsRepository : IPostsRepository
@@ -122,24 +123,20 @@ namespace Fire.Infra.Repositories.Posts
         }
 
 
-
-        //public async Task<List<PostsEntity>> GetHybridFeedAsyncNew(Guid userId, int pageNumber, int pageSize)
+        //Testar/Revisar o banco
+        //public async Task<PagedList<PostsEntity>> GetHybridFeedAsyncNew(Guid userId, int pageNumber, int pageSize)
         //{
-        //    var now = DateTime.UtcNow;
+        //    var dateNow = DateTime.UtcNow;
 
         //    var query = _appDbContext.Posts
-        //        .Where(p => p.active) // apenas posts ativos
+        //        .Where(p => p.active)
         //        .Select(p => new
         //        {
-        //            Post = p,
+        //            PostsLikes = _appDbContext.PostsLikes
+        //                .Count(pl => pl.post_id == p.id),
 
-        //            // Recência (quanto menor a diferença, maior o score)
-        //            RecencyScore = EF.Functions.DateDiffHour(p.created_at, now),
+        //            RecencyScore = (dateNow - p.created_at).TotalHours,
 
-        //            // Likes (campo na entidade)
-        //            EngagementScore = p.LikesCount,
-
-        //            // Afinidade (quantas interações o user atual teve com o autor)
         //            AffinityScore = _appDbContext.UserInteractions
         //                .Where(ui => ui.user_id == userId && ui.author_id == p.user_id)
         //                .Select(ui => ui.count)
@@ -147,48 +144,15 @@ namespace Fire.Infra.Repositories.Posts
         //        })
         //        .OrderByDescending(x =>
         //            (1.0 / (1 + x.RecencyScore)) * 0.5 +
-        //            (x.EngagementScore * 0.3) +
+        //            (x.PostsLikes * 0.3) +
         //            (x.AffinityScore * 0.2)
-        //        )
-        //        .Skip((pageNumber) * pageSize) // pageNumber já é zero-based
-        //        .Take(pageSize);
-
-        //    return await query
-        //        .Select(x => x.Post)
-        //        .ToListAsync();
+        //        );
+        //    //.Skip((pageNumber - 1) * pageSize)
+        //    //    .Take(pageSize).ToListAsync();
+        //    return await PaginationHelper.CreateAsync(query, pageNumber, pageSize);
+        //    //return await query.Select(x => x.Post).ToListAsync();
         //}
 
 
-
-
-        //public async Task<List<PostsEntity>> GetHybridFeedAsyncOld(Guid userId, int pageNumber, int pageSize)
-        //{
-        //    var now = DateTime.UtcNow;
-
-        //    var query = _appDbContext.Posts
-        //        .Where(p => p.active) // só posts ativos
-        //        .Select(p => new
-        //        {
-        //            Post = p,
-        //            // Recent: quanto mais novo, maior o valor
-        //            RecencyScore = (now - p.created_at).TotalHours,
-
-        //            // Engajamento: exemplo com likes (pode ser soma de likes + comments)
-        //            EngagementScore = p.LikesCount,
-
-        //            // Afinidade: quantas interações o user atual teve com este autor
-        //            AffinityScore = _appDbContext.UserInteractions
-        //                .Count(ui => ui.UserId == userId && ui.AuthorId == p.user_id)
-        //        })
-        //        .OrderByDescending(x =>
-        //            (1 / (1 + x.RecencyScore)) * 0.5 +   // recency invertido (quanto menor horas, maior score)
-        //            (x.EngagementScore * 0.3) +          // likes
-        //            (x.AffinityScore * 0.2)              // afinidade
-        //        )
-        //        .Skip((pageNumber - 1) * pageSize)
-        //        .Take(pageSize);
-
-        //    return await query.Select(x => x.Post).ToListAsync();
-        //}
     }
 }

@@ -46,7 +46,7 @@ namespace Fire.API.Controllers
         public async Task<IActionResult> RegistrarUsuario([FromBody]RegisterUserRequest req)
         {
             var usuario = req.Adapt<UsersEntity>();
-            var errosUsuario = await _usersService.ValidErrosUsuario(usuario);
+            var errosUsuario = await _usersService.ValidarRegistroUsuario(usuario);
             if (errosUsuario.ContainsKey("error_email"))
             {
                 return BadRequest(errosUsuario);
@@ -62,7 +62,7 @@ namespace Fire.API.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest req)
         {
             var userOptional = req.Adapt<UsersEntity>();
-            var result = await _usersService.ReturnLogin(userOptional);
+            var result = await _usersService.ValidLogin(userOptional);
             if(result.ContainsKey("erro")){
                 return BadRequest(result);
             }
@@ -74,10 +74,11 @@ namespace Fire.API.Controllers
         public async Task<IActionResult> EditarUsuario([FromBody]RegisterUserRequest req, Guid id)
         {
             var userOptional = req.Adapt<UsersEntity>();
-            var usuario = _usersService.GetById(id);
-            if(usuario is not null)
+            var usuario = await _usersService.GetById(id);
+            if (usuario is not null)
             {
-                await _usersService.EditarUsuario(userOptional);
+                string novaSenha = req.password;
+                await _usersService.EditarUsuario(userOptional, novaSenha);
                 return Ok(userOptional);
             }
             return BadRequest("Erro ao editar o usuário!");
