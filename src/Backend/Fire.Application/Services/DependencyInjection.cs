@@ -16,28 +16,8 @@ namespace Fire.Application.Services
     {
         public static void AddInfrasctructure(this IServiceCollection services, IConfiguration configuration)
         {
-            AddRepositories(services);
             AddServices(services);
-            AddDbContext_Postgres(services, configuration);
-            AddBucketConfiguration(services, configuration);
             AddJwtConfiguration(services, configuration);
-        }
-
-        private static void AddDbContext_Postgres(IServiceCollection services, IConfiguration configuration)
-        {
-            var connectionString = configuration.GetConnectionString("PostgreSQL");
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseNpgsql(connectionString),
-                ServiceLifetime.Scoped // reforça que é Scoped
-            );
-        }
-
-        private static void AddRepositories(IServiceCollection services)
-        {
-            services.AddScoped<IUsersRepository, UsersRepository>();
-            services.AddScoped<IPostsRepository, PostsRepository>();
-            services.AddScoped<IPostsLikesRepository, PostsLikesRepository>();
-
         }
 
         private static void AddServices(IServiceCollection services)
@@ -48,12 +28,6 @@ namespace Fire.Application.Services
             services.AddScoped<BucketService>();
             services.AddScoped<JWTService>();
             //services.AddScoped<CommentsService>();
-        }
-
-        private static void AddBucketConfiguration(IServiceCollection services, IConfiguration configuration)
-        {
-            var section = configuration.GetSection("r2");
-            services.Configure<R2Settings>(section);
         }
 
         private static void AddJwtConfiguration(IServiceCollection services, IConfiguration configuration)
@@ -78,7 +52,5 @@ namespace Fire.Application.Services
                             };
                         });
         }
-
-
     }
 }

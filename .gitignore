@@ -364,3 +364,5 @@ FodyWeavers.xsd
 
 #Sens
 **/appsettings*.json
+
+.env

@@ -1,7 +1,7 @@
 ﻿using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
-using Fire.Application.Configuration;
+using Fire.Infra.Configuration;
 using Microsoft.Extensions.Options;
 
 // para exibir no front

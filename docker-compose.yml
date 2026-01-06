@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: src/Backend/Fire.API/Dockerfile
+    container_name: fire_api
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    depends_on:
+      - cassandra
+      - redis
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__PostgreSQL=Host=postgres;Port=${POSTGRES_PORT};Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - CASSANDRA_HOST=${CASSANDRA_HOST}
+      - CASSANDRA_PORT=${CASSANDRA_PORT}
+      - CASSANDRA_KEYSPACE=${CASSANDRA_KEYSPACE}
+      - CASSANDRA_USER=${CASSANDRA_USER}
+      - CASSANDRA_PASSWORD=${CASSANDRA_PASSWORD}
+
+  postgres:
+    image: postgres:16
+    container_name: fire_postgres
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  
+
+  cassandra:
+    image: cassandra:4.1
+    container_name: fire_cassandra
+    ports:
+      - "${CASSANDRA_PORT}:9042"
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+
+  redis:
+    image: redis:7
+    container_name: fire_redis
+    ports:
+      - "${REDIS_PORT}:6379"
+
+volumes:
+  cassandra_data:
+  postgres_data:

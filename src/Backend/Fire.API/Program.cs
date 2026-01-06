@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Fire.Infra.Data;
 using Fire.Infra.Repositories;
 using Fire.Application.Services;
+using Fire.Infra;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddSwaggerGen();
 //);
 
 builder.Services.AddInfrasctructure(builder.Configuration);
+builder.Services.AddInfrasctructureCR(builder.Configuration);
 //builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddAuthorization();
 var app = builder.Build();
